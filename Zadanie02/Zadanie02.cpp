@@ -108,13 +108,14 @@ void Algorytm()
     delete[] F;
 }
 
+
 int main()
 {
     // WCZYTYWANIE DANYCH
     Wczytywanie();
 
     // do mierzenia czasu
-    int ilosc_powt = 1000;
+    int ilosc_powt = 1;
     time_t start, stop;
     double t = 0;
 
