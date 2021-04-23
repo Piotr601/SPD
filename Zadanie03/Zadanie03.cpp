@@ -167,10 +167,10 @@ int Algorytm_NEH(int liczba_wierszy, int liczba_kolumn, int *Zadanie, int *Indek
     //-------------------------------------------------------------
      
     // Sortowanie wag - SZYBKIE
-    Sortowanie(Waga, 0, liczba_wierszy-1, Indeks);
+    //Sortowanie(Waga, 0, liczba_wierszy-1, Indeks);
     
     // SORTOWANIE BABELKOWE
-    //Sortowanie2(Waga, liczba_wierszy, Indeks);
+    Sortowanie2(Waga, liczba_wierszy, Indeks);
     
     /*-------------------------------------------------------------
     // Wypisywanie posortowanych wag
