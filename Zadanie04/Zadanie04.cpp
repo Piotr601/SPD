@@ -6,6 +6,7 @@
 #include <iostream>
 #include <fstream>
 #include <algorithm>
+#include <string>
 
 using namespace std;
 
@@ -23,18 +24,18 @@ public:
 	int r;
 	int p;
 	int q;
-} dane;
+}dane;
 
 //****************************************//
 //               FUNKCJE
 //****************************************//
 
 // Wczytywanie
-void Wczytywanie(dane rpq[MAKS])
+void Wczytywanie(string nazwa, dane rpq[MAKS])
 {
 	plik.open("data.txt");
 
-	while (s != "data.001:")
+	while (s != nazwa)
 		plik >> s;
 	
 	plik >> n;
@@ -50,13 +51,13 @@ void Wczytywanie(dane rpq[MAKS])
 	plik.close();
 
 	// Wyswietlanie ilosci danych
-	cout << " >>> n = " << n << " <<<\n\n";
+	//cout << " >>> n = " << n << " <<<\n\n";
 
 	// Wyswietlenie procesow ( danych )
-	for (int i = 0; i < n; i++)
-	{
-		cout << " " << rpq[i].x << ") " << rpq[i].r << " " << rpq[i].p << " " << rpq[i].q << " " << endl;
-	}
+	//for (int i = 0; i < n; i++)
+	//{
+	//	cout << " " << rpq[i].x << ") " << rpq[i].r << " " << rpq[i].p << " " << rpq[i].q << " " << endl;
+	//}
 }
 
 // Wyswietlanie wynikow
@@ -69,10 +70,11 @@ void Wyswietlanie(dane rpq[MAKS])
 	{
 		cout << rpq[i].x + 1 << " ";
 	}
+	cout << endl;
 }
 
 // Algorytm Schrage
-void Schrage(int n, dane rpq[MAKS])
+void Schrage(dane rpq[MAKS], int krok)
 {
 	//=======================================//
 	// Stan == 0  | Zadanie do rozpatrzenia  //
@@ -149,7 +151,10 @@ void Schrage(int n, dane rpq[MAKS])
 		cmax = max(cmax, czas + rpq[maxI].q);
 	}
 
-	cout << "\n Schrange: " << cmax << endl;
+	if (krok == 0)
+	{
+		cout << "\n Schrange: " << cmax << endl;
+	}
 }
 
 /*
@@ -176,17 +181,41 @@ int main()
 	// tablica obiektow
 	dane rpq[MAKS];
 
-	// Wczytywanie danych
-	Wczytywanie(rpq);
-	
-	// Algorytm
-	Schrage(n, rpq);
+	// OBSLUGA DANYCH
+	string nazwa;
+	int ilosc = 8;
 
-	// Algorytm 2
-	//SchragePodzial(n,rpq);
+	int powt = 100000;
+	time_t start, stop;
+	long double t = 0.00000;
 
-	// Wyswietlanie kolejnosci
-	Wyswietlanie(rpq);
+	for (int i = 0; i <= ilosc; i++)
+	{
+		nazwa = "data.00" + to_string(i) + ':';
+
+		cout << "\n (#) " <<nazwa << endl;
+		// Wczytywanie danych
+		Wczytywanie(nazwa, rpq);
+
+		// Algorytm
+		for (int krok = 0; krok < powt; krok++)
+		{
+			start = clock();
+			Schrage(rpq, krok);
+			stop = clock();
+		
+			t += (double_t)(stop - start) / CLOCKS_PER_SEC;
+		}
+
+		// Algorytm 2
+		//SchragePodzial(n,rpq);
+
+		// Wyswietlanie kolejnosci
+		Wyswietlanie(rpq);
+
+		cout << "\n (-) Czas: " << t / powt << endl << endl;
+		cout << "-----------------------------------------------------------------------------------------------------------\n";
+	}
 
 	cout << "\n";
 	return 0;
